@@ -1,5 +1,5 @@
 <?php
-namespace Iwanli\Wxxcx;
+namespace wenjiachengy\Wxxcx;
 
 use Illuminate\Support\ServiceProvider;
 

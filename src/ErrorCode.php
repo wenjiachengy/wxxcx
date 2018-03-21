@@ -1,5 +1,5 @@
 <?php
-namespace Iwanli\Wxxcx;
+namespace wenjiachengy\Wxxcx;
 
 /**
  * error code 说明.

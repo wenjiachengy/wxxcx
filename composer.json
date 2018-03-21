@@ -1,11 +1,11 @@
 {
-    "name": "iwanli/wxxcx",
+    "name": "wenjiachengy/wxxcx",
     "description": "A WeChat applet (xiaochengxu) plugins for Laravel 5.",
     "license": "MIT",
     "authors": [
         {
-            "name": "晚黎",
-            "email": "ibanya@126.com"
+            "name": "wenjiachengy",
+            "email": "423132134@qq.com"
         }
     ],
     "minimum-stability": "stable",
@@ -15,7 +15,7 @@
     },
     "autoload": { 
         "psr-4": {
-            "Iwanli\\Wxxcx\\": "src/"
+            "wenjiachengy\\Wxxcx\\": "src/"
         } 
     }
 }

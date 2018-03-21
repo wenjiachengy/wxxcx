@@ -8,23 +8,40 @@
 * 获取用户信息：[wx.getUserInfo](https://mp.weixin.qq.com/debug/wxadoc/dev/api/open.html#wxgetuserinfoobject)
 
 ## 安装
+> 由于 PHP7.1 的加密函数 `mcrypt_module_open()` 因为过时而被废弃。使用 PHP7.1 版本的人请安装 2.1 版本的代码
 
 执行以下命令安装最新稳定版本:
 
+**PHP < 7.1**
+
 ```bash
-composer require iwanli/wxxcx
+composer require wenjiachengy/wxxcx=1.*
+```
+
+**PHP > 7.1**
+
+```bash
+composer require wenjiachengy/wxxcx=2.1
 ```
 
 或者添加如下信息到你的 `composer.json` 文件中 :
 
+**PHP < 7.1**
+
 ```json
-"iwanli/wxxcx": "^1.0",
+"wenjiachengy/wxxcx": "^1.0"
+```
+
+**PHP > 7.1**
+
+```bash
+"wenjiachengy/wxxcx": "^2.1"
 ```
 
 然后注册服务提供者到 Laravel中 具体位置：`/config/app.php` 中的 `providers` 数组:
 
 ```php
-Iwanli\Wxxcx\WxxcxServiceProvider::class,
+wenjiachengy\Wxxcx\WxxcxServiceProvider::class,
 ```
 发布配置文件: 
 
@@ -40,7 +57,7 @@ php artisan vendor:publish --tag=wxxcx
 ```php
 ...
 
-use Iwanli\Wxxcx\Wxxcx;
+use wenjiachengy\Wxxcx\Wxxcx;
 
 class WxxcxController extends Controller
 {
@@ -122,4 +139,4 @@ wx.login({
 })
 ```
 
-> 如有bug，请在 [Issues](https://github.com/lanceWan/wxxcx/issues) 中反馈，非常感谢！
+> 如有bug，请在 [Issues](https://github.com/wenjiachengy/wxxcx/issues) 中反馈，非常感谢！

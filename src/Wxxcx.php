@@ -1,5 +1,5 @@
 <?php
-namespace Iwanli\Wxxcx;
+namespace wenjiachengy\Wxxcx;
 
 
 use Ixudra\Curl\Facades\Curl;
@@ -20,16 +20,17 @@ class Wxxcx
      */
     function __construct()
     {
-        $this->appId = config('wxxcx.appid', '');
-        $this->secret = config('wxxcx.secret', '');
-        $this->code2session_url = config('wxxcx.code2session_url', '');
+        $this->appId = config('wxxcx.appid');
+        $this->secret = config('wxxcx.secret');
+        $this->code2session_url = config('wxxcx.code2session_url');
     }
 
     /**
      * Created by vicleos
      * @return mixed
      */
-    public function getLoginInfo($code){
+    public function getLoginInfo($code)
+    {
         return $this->authCodeAndCode2session($code);
     }
 
@@ -40,11 +41,15 @@ class Wxxcx
      * @return string
      * @throws \Exception
      */
-    public function getUserInfo($encryptedData, $iv){
+    public function getUserInfo($encryptedData, $iv, $session)
+    {
+        if (!empty($session)) {
+            $this->sessionKey = $session;
+        }
         $pc = new WXBizDataCrypt($this->appId, $this->sessionKey);
-        $decodeData = "";
+        $decodeData = '';
         $errCode = $pc->decryptData($encryptedData, $iv, $decodeData);
-        if ($errCode !=0 ) {
+        if ($errCode != 0) {
             return [
                 'code' => 10001,
                 'message' => 'encryptedData 解密失败'
@@ -58,8 +63,9 @@ class Wxxcx
      * 根据 code 获取 session_key 等相关信息
      * @throws \Exception
      */
-    private function authCodeAndCode2session($code){
-        $code2session_url = sprintf($this->code2session_url,$this->appId,$this->secret,$code);
+    private function authCodeAndCode2session($code)
+    {
+        $code2session_url = sprintf($this->code2session_url, $this->appId, $this->secret, $code);
         $userInfo = $this->httpRequest($code2session_url);
         if(!isset($userInfo['session_key'])){
             return [
@@ -70,7 +76,6 @@ class Wxxcx
         $this->sessionKey = $userInfo['session_key'];
         return $userInfo;
     }
-
 
     /**
      * 请求小程序api
@@ -86,17 +91,16 @@ class Wxxcx
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-        if (!empty($data)){
+        if (!empty($data)) {
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
-        if($output === FALSE ){
+        if ($output === FALSE) {
             return false;
         }
         curl_close($curl);
         return json_decode($output,JSON_UNESCAPED_UNICODE);
     }
-
 }
